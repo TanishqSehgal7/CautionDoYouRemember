@@ -11,6 +11,9 @@
         android:theme="@style/Theme.CautionDoYouRemember">
         <activity
             android:name=".activities.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.GoogleLoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

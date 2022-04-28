@@ -4,13 +4,19 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Tanishq Sehgal/AndroidStudioProjects/CautionDoYouRemember/app/src/main/res/drawable/app_icon.xml" value="0.1" />
+        <entry key="..\:/Users/Tanishq Sehgal/AndroidStudioProjects/CautionDoYouRemember/app/src/main/res/drawable/back_btn.xml" value="0.247" />
         <entry key="..\:/Users/Tanishq Sehgal/AndroidStudioProjects/CautionDoYouRemember/app/src/main/res/drawable/background_app.xml" value="0.102" />
         <entry key="..\:/Users/Tanishq Sehgal/AndroidStudioProjects/CautionDoYouRemember/app/src/main/res/drawable/bg.xml" value="0.2165" />
+        <entry key="..\:/Users/Tanishq Sehgal/AndroidStudioProjects/CautionDoYouRemember/app/src/main/res/drawable/google_login_btn.xml" value="0.247" />
+        <entry key="..\:/Users/Tanishq Sehgal/AndroidStudioProjects/CautionDoYouRemember/app/src/main/res/drawable/ic__293465_1.xml" value="0.247" />
+        <entry key="..\:/Users/Tanishq Sehgal/AndroidStudioProjects/CautionDoYouRemember/app/src/main/res/drawable/ic__293465_1__2_.xml" value="0.247" />
         <entry key="..\:/Users/Tanishq Sehgal/AndroidStudioProjects/CautionDoYouRemember/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.347" />
+        <entry key="..\:/Users/Tanishq Sehgal/AndroidStudioProjects/CautionDoYouRemember/app/src/main/res/drawable/ic_google_icon.xml" value="0.247" />
         <entry key="..\:/Users/Tanishq Sehgal/AndroidStudioProjects/CautionDoYouRemember/app/src/main/res/drawable/tab_layout_bg.xml" value="0.347" />
         <entry key="..\:/Users/Tanishq Sehgal/AndroidStudioProjects/CautionDoYouRemember/app/src/main/res/drawable/tab_selected.xml" value="0.247" />
         <entry key="..\:/Users/Tanishq Sehgal/AndroidStudioProjects/CautionDoYouRemember/app/src/main/res/drawable/tabselected_color_bg.xml" value="0.247" />
-        <entry key="..\:/Users/Tanishq Sehgal/AndroidStudioProjects/CautionDoYouRemember/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/Tanishq Sehgal/AndroidStudioProjects/CautionDoYouRemember/app/src/main/res/layout/activity_google_login.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Tanishq Sehgal/AndroidStudioProjects/CautionDoYouRemember/app/src/main/res/layout/activity_main.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Tanishq Sehgal/AndroidStudioProjects/CautionDoYouRemember/app/src/main/res/layout/fragment_notes.xml" value="0.3453125" />
         <entry key="..\:/Users/Tanishq Sehgal/AndroidStudioProjects/CautionDoYouRemember/app/src/main/res/layout/fragment_reminders.xml" value="0.3453125" />
         <entry key="..\:/Users/Tanishq Sehgal/AndroidStudioProjects/CautionDoYouRemember/app/src/main/res/layout/fragment_tasks.xml" value="0.33125" />
