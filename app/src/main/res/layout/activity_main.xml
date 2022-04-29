@@ -42,14 +42,28 @@
 <!--            android:backgroundTint="@color/myOrgange" />-->
 
         <ImageButton
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/settings"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:background="@color/transparent"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_baseline_search_24" />
+
+        <ImageButton
+            android:id="@+id/settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="20dp"
             android:background="@color/transparent"
-            android:src="@drawable/ic_baseline_search_24"
-            android:contentDescription="search" />
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_baseline_settings_24" />
 
     </RelativeLayout>
 
@@ -71,8 +85,6 @@
             app:tabIndicatorGravity="center"
             app:tabBackground="@drawable/tab_selected"
             android:layout_margin="20dp"
-            app:tabUnboundedRipple="true"
-            app:tabPaddingEnd="16dp"
             app:tabIndicator="@color/orange"
             app:tabPaddingStart="16dp"
             app:tabRippleColor="@null"

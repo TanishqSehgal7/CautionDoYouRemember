@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">RemindMe</string>
+    <string name="track_all_your_tasks_reminders_and_personalise_your_notes_click_to_login">Track all your tasks, reminders and personalise your notes. Click to Login.</string>
+    <string name="login">Login</string>
+    <string name="client_id">18387841056-t8u9qipvqevpacqhnmevk1bper61jpie.apps.googleusercontent.com</string>
+    <string name="logout">Logout</string>
+    <string name="face_detection_history">Face Detection History</string>
+    <string name="web_client_id">18387841056-t8u9qipvqevpacqhnmevk1bper61jpie.apps.googleusercontent.com</string>
 </resources>
