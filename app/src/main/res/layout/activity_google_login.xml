@@ -8,6 +8,7 @@
     android:background="@drawable/google_login_activity_bg">
 
     <ImageView
+        android:id="@+id/loginActivityBackButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"

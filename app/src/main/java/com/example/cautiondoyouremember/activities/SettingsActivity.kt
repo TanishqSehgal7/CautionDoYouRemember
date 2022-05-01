@@ -1,20 +1,21 @@
 package com.example.cautiondoyouremember.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.cautiondoyouremember.R
-import com.example.cautiondoyouremember.databinding.ActivityMainBinding
 import com.example.cautiondoyouremember.databinding.ActivitySettingsBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.material.button.MaterialButton
+import com.google.android.material.internal.ContextUtils.getActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
+
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
@@ -45,6 +46,18 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
+        val acct = GoogleSignIn.getLastSignedInAccount(this)
+        if (acct != null) {
+            val personName = acct.displayName
+            val personGivenName = acct.givenName
+            val personFamilyName = acct.familyName
+            val personEmail = acct.email
+            val personId = acct.id
+            val personPhoto: Uri? = acct.photoUrl
+            Picasso.get()
+                .load(personPhoto)
+                .into(binding.profilePic);
+        }
 
 
     }

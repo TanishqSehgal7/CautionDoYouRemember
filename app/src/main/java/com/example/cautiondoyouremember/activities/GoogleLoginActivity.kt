@@ -2,6 +2,7 @@ package com.example.cautiondoyouremember.activities
 
 import android.content.Intent
 import android.content.IntentSender
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -101,6 +102,10 @@ class GoogleLoginActivity : AppCompatActivity() {
          firebaseAuth = Firebase.auth
          val user = firebaseAuth.currentUser
 
+        binding.loginActivityBackButton.setOnClickListener {
+            finishAffinity()
+        }
+
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.client_id))
             .requestEmail()
@@ -151,6 +156,16 @@ class GoogleLoginActivity : AppCompatActivity() {
                 val homeActivityIntent = Intent(this,MainActivity::class.java)
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(homeActivityIntent)
+                val acct = GoogleSignIn.getLastSignedInAccount(this)
+                if (acct != null) {
+                    val personName = acct.displayName
+                    val personGivenName = acct.givenName
+                    val personFamilyName = acct.familyName
+                    val personEmail = acct.email
+                    val personId = acct.id
+                    val personPhoto: Uri? = acct.photoUrl
+                    Toast.makeText(this,"Welcome $personName",Toast.LENGTH_SHORT).show()
+                }
                 finish()
             }
         }

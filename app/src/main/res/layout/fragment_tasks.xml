@@ -15,6 +15,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tasksRv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        tools:listitem="@layout/task_item_card"/>
 
 </FrameLayout>

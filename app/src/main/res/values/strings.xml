@@ -5,4 +5,10 @@
     <string name="client_id">18387841056-t8u9qipvqevpacqhnmevk1bper61jpie.apps.googleusercontent.com</string>
     <string name="logout">Logout</string>
     <string name="face_detection_history">Face Detection History</string>
+    <string name="status">Status</string>
+    <string name="task_description">Task Description ....</string>
+    <string name="date">Date</string>
+    <string name="taskname">TaskName</string>
+    <string name="reminder_description">Reminder Description</string>
+    <string name="_2_00_pm">2:00 PM</string>
 </resources>
