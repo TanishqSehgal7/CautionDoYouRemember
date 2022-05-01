@@ -23,10 +23,10 @@ class AdapterForSwipableViews(fragmentManager: FragmentManager, lifecycle: Lifec
                 NotesFragment()
             }
             1-> {
-                RemindersFragment()
+                TasksFragment()
             }
             2-> {
-                TasksFragment()
+                RemindersFragment()
             }
             else -> {
                 NotesFragment()

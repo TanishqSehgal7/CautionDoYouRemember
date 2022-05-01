@@ -13,4 +13,5 @@
     <color name="Red">#FF5C00</color>
     <color name="Cyan">#50BEC5</color>
     <color name="transparent">#00000000</color>
+    <color name="editActivitybg">#293241</color>
 </resources>

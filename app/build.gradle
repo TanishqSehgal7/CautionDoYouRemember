@@ -66,4 +66,7 @@ dependencies {
     // circular imageview library
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    // expandable FAB
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
+
 }

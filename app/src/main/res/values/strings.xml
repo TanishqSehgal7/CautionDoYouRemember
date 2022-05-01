@@ -11,4 +11,11 @@
     <string name="taskname">TaskName</string>
     <string name="reminder_description">Reminder Description</string>
     <string name="_2_00_pm">2:00 PM</string>
+    <string name="enter_title_of_note">Enter Title of Note</string>
+    <string name="save">SAVE</string>
+    <string name="date_01_05_2022">Date: 01/05/2022</string>
+    <string name="enter_title_of_task">Enter Title of Task</string>
+    <string name="enter_description_of_task">Enter Description Of Task</string>
+    <string name="enter_reminder">Enter Reminder</string>
+    <string name="remind_me_to">Remind me to...</string>
 </resources>

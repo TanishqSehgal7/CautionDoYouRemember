@@ -50,5 +50,16 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
+
+        // FAB control of activities
+        binding.addNote.setOnClickListener {
+            startActivity(Intent(this,AddNoteActivity::class.java))
+        }
+        binding.addTask.setOnClickListener {
+            startActivity(Intent(this, AddTaskActivity::class.java))
+        }
+        binding.addReminder.setOnClickListener {
+            startActivity(Intent(this, AddReminderActivity::class.java))
+        }
     }
 }
