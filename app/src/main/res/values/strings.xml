@@ -18,4 +18,8 @@
     <string name="enter_description_of_task">Enter Description Of Task</string>
     <string name="enter_reminder">Enter Reminder</string>
     <string name="remind_me_to">Remind me to...</string>
+    <string name="do_this_later"><![CDATA[Do this Later ->]]></string>
+    <string name="here_we_will_capture_your_face_to_enable_face_recognition_reminders_whenever_you_step_out_of_your_house.">Here we will capture your face to enable face recognition reminders whenever you step out of your house.</string>
+    <string name="start_capturing_face">Start Capturing Face</string>
+    <string name="image_count">Image Count:</string>
 </resources>

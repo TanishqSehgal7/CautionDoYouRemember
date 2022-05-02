@@ -8,3 +8,10 @@ dependencyResolutionManagement {
 }
 rootProject.name = "CautionDoYouRemember"
 include ':app'
+
+include ':openCVLibrary2411'
+include ':openCVLibrary2411'
+include ':openCVLibrary2411'
+include ':openCVLibrary'
+include ':openCVLibrary2411'
+include ':sdk'

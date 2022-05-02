@@ -3,6 +3,7 @@
     package="com.example.cautiondoyouremember">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -11,6 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CautionDoYouRemember">
+
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="face" />
+
+        <activity
+            android:name=".activities.FaceDetectorAndCaptureActivity"
+            android:exported="false"
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity
             android:name=".activities.AddReminderActivity"
             android:exported="false" />

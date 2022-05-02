@@ -100,7 +100,7 @@ class GoogleLoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
          firebaseAuth = Firebase.auth
-         val user = firebaseAuth.currentUser
+//         val user = firebaseAuth.currentUser
 
         binding.loginActivityBackButton.setOnClickListener {
             finishAffinity()
@@ -153,7 +153,7 @@ class GoogleLoginActivity : AppCompatActivity() {
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {task->
             if(task.isSuccessful) {
 //                SavedPreference.setEmail(this,account.email.toString())                SavedPreference.setUsername(this,account.displayName.toString())
-                val homeActivityIntent = Intent(this,MainActivity::class.java)
+                val homeActivityIntent = Intent(this,FaceDetectorAndCaptureActivity::class.java)
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(homeActivityIntent)
                 val acct = GoogleSignIn.getLastSignedInAccount(this)
