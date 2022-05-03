@@ -6,11 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.cautiondoyouremember.R
+import com.google.firebase.database.FirebaseDatabase
+
 class NotesFragment : Fragment() {
+
+    val database = FirebaseDatabase.getInstance()
+    val databaseReference = database.getReference("Users")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

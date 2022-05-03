@@ -1,35 +1,28 @@
 package com.example.cautiondoyouremember.activities
 
+import android.app.Application
 import android.content.Intent
-import android.content.IntentSender
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.result.IntentSenderRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.viewbinding.BuildConfig
-import com.example.cautiondoyouremember.BuildConfig.WEB_CLIENT_ID
 import com.example.cautiondoyouremember.R
+import com.example.cautiondoyouremember.SavedPreference
 import com.example.cautiondoyouremember.databinding.ActivityGoogleLoginBinding
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.identity.Identity
-import com.google.android.gms.auth.api.identity.SignInClient
+import com.example.cautiondoyouremember.User.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.tasks.Task
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 
 /*
@@ -53,6 +46,8 @@ class GoogleLoginActivity : AppCompatActivity() {
 //    val RC_ONE_TAP = 124
 //    private var showOneTapUI = true
     val TAG:String = "GoogleLogin"
+    private val database = FirebaseDatabase.getInstance()
+    private val databaseReference = database.reference
 
 //    private val oneTapResult = registerForActivityResult(ActivityResultContracts.
 //    StartIntentSenderForResult()) { result ->
@@ -152,8 +147,10 @@ class GoogleLoginActivity : AppCompatActivity() {
         val credential= GoogleAuthProvider.getCredential(account.idToken,null)
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {task->
             if(task.isSuccessful) {
-//                SavedPreference.setEmail(this,account.email.toString())                SavedPreference.setUsername(this,account.displayName.toString())
-                val homeActivityIntent = Intent(this,FaceDetectorAndCaptureActivity::class.java)
+                SavedPreference.setEmail(this,account.email.toString())
+                SavedPreference.setUsername(this,account.displayName.toString())
+                SavedPreference.setUserId(this,account.id.toString())
+        val homeActivityIntent = Intent(this,FaceDetectorAndCaptureActivity::class.java)
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(homeActivityIntent)
                 val acct = GoogleSignIn.getLastSignedInAccount(this)
@@ -165,6 +162,19 @@ class GoogleLoginActivity : AppCompatActivity() {
                     val personId = acct.id
                     val personPhoto: Uri? = acct.photoUrl
                     Toast.makeText(this,"Welcome $personName",Toast.LENGTH_SHORT).show()
+                    if(GoogleSignIn.getLastSignedInAccount(this)!=null){
+                        val user = User(personId)
+                        Log.d(TAG,firebaseAuth.currentUser.toString())
+                        user.email=personEmail.toString()
+                        user.name = personName.toString()
+                        Log.d(TAG,user.email + user.id + user.name)
+                        val intent = Intent()
+                        intent.putExtra("GoogleId",user.id)
+//                        databaseReference.child("Users").child(user.id.toString()).setValue("")
+//                        databaseReference.child("Users").child(user.id.toString()).child("Notes").setValue("")
+//                        databaseReference.child("Users").child(user.id.toString()).child("Tasks").setValue("")
+//                        databaseReference.child("Users").child(user.id.toString()).child("Reminders").setValue("")
+                    }
                 }
                 finish()
             }

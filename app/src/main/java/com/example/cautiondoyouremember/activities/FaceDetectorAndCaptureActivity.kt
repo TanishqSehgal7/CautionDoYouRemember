@@ -1,14 +1,25 @@
 package com.example.cautiondoyouremember.activities
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.camerakit.CameraKitView
+import com.example.cautiondoyouremember.Utils.RectOverlay
 import com.example.cautiondoyouremember.databinding.ActivityFaceDetectorAndCaptureBinding
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+//import com.google.firebase.ml.vision.FirebaseVision
+//import com.google.firebase.ml.vision.common.FirebaseVisionImage
+//import com.google.firebase.ml.vision.face.FirebaseVisionFace
+//import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector
+//import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions
 import dmax.dialog.SpotsDialog
 import org.opencv.android.*
+import java.lang.Exception
 
 class FaceDetectorAndCaptureActivity() : AppCompatActivity()
 //    CameraBridgeViewBase.CvCameraViewListener2
@@ -94,8 +105,19 @@ class FaceDetectorAndCaptureActivity() : AppCompatActivity()
                             // image to be captured x 50 times atleast
                             binding.camera.captureImage(object : CameraKitView.ImageCallback{
                                 override fun onImage(cameraKitView: CameraKitView?, byteArray: ByteArray?) {
-                                    for (i:Int in 1..totalImagesToBeCaptured) {
-                                        // capture 100
+//                                    for (i:Int in 1..totalImagesToBeCaptured) {
+//                                        // capture 100
+//                                    }
+//                                    val bitmap = cameraKitView?.cameraListener?.onOpened()
+                                    var bitmap = byteArray?.let { it1 ->
+                                        BitmapFactory.decodeByteArray(byteArray,0,
+                                            it1.size)
+                                    }
+                                    if (cameraKitView != null) {
+                                        bitmap = bitmap?.let { it1 -> Bitmap.createScaledBitmap(it1, cameraKitView.width,cameraKitView.height,false) }
+                                    }
+                                    if (bitmap != null) {
+//                                        runFaceDetector(bitmap)
                                     }
                                 }
 
@@ -132,6 +154,39 @@ class FaceDetectorAndCaptureActivity() : AppCompatActivity()
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         binding.camera.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
+
+//     fun runFaceDetector (bitmap: Bitmap) {
+//         val image = FirebaseVisionImage.fromBitmap(bitmap)
+//          val options = FirebaseVisionFaceDetectorOptions.Builder().build()
+////         val realTimeOpts = FaceDetectorOptions.Builder()
+////             .setContourMode(FaceDetectorOptions.CONTOUR_MODE_ALL)
+////             .build()
+//
+//         val detector: FirebaseVisionFaceDetector = FirebaseVision.getInstance()
+//             .getVisionFaceDetector(options)
+//
+//         detector.detectInImage(image)
+//             .addOnSuccessListener(object : OnSuccessListener<List<FirebaseVisionFace>>{
+//                 override fun onSuccess(firebaseVisionFace: List<FirebaseVisionFace>?) {
+//                    processFaceResult(firebaseVisionFace)
+//                 }
+//             }).addOnFailureListener(object :OnFailureListener{
+//                 override fun onFailure(p0: Exception) {
+//
+//                 }
+//
+//             })
+//     }
+
+//     private fun processFaceResult(firebaseVisionFace: List<FirebaseVisionFace>?) {
+//        val count=0
+//         for (face in firebaseVisionFace!!) {
+//             val bounds = face.boundingBox
+//             val rect: RectOverlay = RectOverlay(binding.graphicOverlay,bounds)
+//             binding.graphicOverlay.add(rect)
+//
+//         }
+//     }
 
 //    override fun onCameraViewStarted(width: Int, height: Int) {
 //        mRGB = Mat()
