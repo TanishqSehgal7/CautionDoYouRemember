@@ -5,8 +5,8 @@ import com.google.firebase.database.FirebaseDatabase
 
 class TaskRepository(private val googleId: String) {
 
-    private val rootReferenceForNotes: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
-    private val taskReference: DatabaseReference = rootReferenceForNotes.child(googleId).child("Tasks")
+    private val rootReferenceForTasks: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
+    private val taskReference: DatabaseReference = rootReferenceForTasks.child(googleId).child("Tasks")
 
     val allTasks: MutableLiveData<TaskResponse> = taskResponseFromFirebaseAsMutableLiveData()
 

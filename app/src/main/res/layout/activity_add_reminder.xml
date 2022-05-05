@@ -73,7 +73,7 @@
         app:layout_constraintTop_toBottomOf="@+id/TaskDate" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/NoteDesc"
+        android:id="@+id/reminderDesc"
         style="@style/editTextBg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
         android:isScrollContainer="true"
         android:scrollbars="vertical"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/materialButton"
+        app:layout_constraintBottom_toTopOf="@+id/saveRemider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/NoteTitle"
@@ -94,7 +94,7 @@
         app:layout_constraintVertical_bias="0.029" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/materialButton"
+        android:id="@+id/saveRemider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

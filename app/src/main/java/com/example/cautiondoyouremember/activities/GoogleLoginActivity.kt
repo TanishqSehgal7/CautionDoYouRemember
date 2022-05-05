@@ -170,10 +170,10 @@ class GoogleLoginActivity : AppCompatActivity() {
                         Log.d(TAG,user.email + user.id + user.name)
                         val intent = Intent()
                         intent.putExtra("GoogleId",user.id)
-//                        databaseReference.child("Users").child(user.id.toString()).setValue("")
-//                        databaseReference.child("Users").child(user.id.toString()).child("Notes").setValue("")
-//                        databaseReference.child("Users").child(user.id.toString()).child("Tasks").setValue("")
-//                        databaseReference.child("Users").child(user.id.toString()).child("Reminders").setValue("")
+                        databaseReference.child("Users").child("AllUserData")
+                            .child(user.name.toString()).child("Id").setValue(user.id)
+                        databaseReference.child("Users").child("AllUserData")
+                            .child(user.name.toString()).child("Email").setValue(user.email)
                     }
                 }
                 finish()
