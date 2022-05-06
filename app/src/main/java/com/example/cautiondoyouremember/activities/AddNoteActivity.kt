@@ -14,6 +14,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.database.FirebaseDatabase
 import dmax.dialog.SpotsDialog
 import java.util.*
+import kotlin.collections.ArrayList
 
 class AddNoteActivity : AppCompatActivity() {
 
@@ -40,16 +41,17 @@ class AddNoteActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, NotesViewModelFactory(notesRepository,this))
             .get(NotesViewModel::class.java)
 
+        // save notes to firebase realtime database
         binding.saveNote.setOnClickListener {
 
             val titleOfNote = binding.NoteTitle.text.toString()
             val descOfNote = binding.NoteDesc.text.toString()
-            val timeOfNote = System.currentTimeMillis()
+            val timeOfNote = System.currentTimeMillis().toString()
 
-            val note = Note(noteID)
-            note.noteTitle = titleOfNote
-            note.noteDesc = descOfNote
-            note.date = timeOfNote
+            val note = Note(noteID, titleOfNote, descOfNote, timeOfNote)
+//            note.noteTitle = titleOfNote
+//            note.noteDesc = descOfNote
+//            note.time = timeOfNote
 
             if (acct != null) {
                 viewModel.insertNewNote(note, noteID)
@@ -67,5 +69,9 @@ class AddNoteActivity : AppCompatActivity() {
                     }
             }
         }
+
+        // display all notes
+
+
     }
 }

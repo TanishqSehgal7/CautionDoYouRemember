@@ -157,6 +157,7 @@ class GoogleLoginActivity : AppCompatActivity() {
                 if (acct != null) {
                     val personName = acct.displayName
                     val personGivenName = acct.givenName
+                    Log.d("Details", "$personGivenName $personName")
                     val personFamilyName = acct.familyName
                     val personEmail = acct.email
                     val personId = acct.id
@@ -170,10 +171,11 @@ class GoogleLoginActivity : AppCompatActivity() {
                         Log.d(TAG,user.email + user.id + user.name)
                         val intent = Intent()
                         intent.putExtra("GoogleId",user.id)
+
                         databaseReference.child("Users").child("AllUserData")
-                            .child(user.name.toString()).child("Id").setValue(user.id)
+                            .child(personGivenName.toString()).child("Id").setValue(personId)
                         databaseReference.child("Users").child("AllUserData")
-                            .child(user.name.toString()).child("Email").setValue(user.email)
+                            .child(personGivenName.toString()).child("Email").setValue(personEmail)
                     }
                 }
                 finish()

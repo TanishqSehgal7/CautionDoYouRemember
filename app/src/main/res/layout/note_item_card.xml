@@ -23,10 +23,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/noteContent"
+        android:id="@+id/noteDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Content of Note..."
+        android:text="@string/content_of_note"
         android:textColor="@color/white"
         android:textSize="12sp"
         android:textStyle="bold"
@@ -44,7 +44,7 @@
         android:layout_gravity="end"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Date"
+        android:text="@string/date"
         android:textColor="@color/white"
         android:textSize="12sp"
         android:textStyle="bold"

@@ -45,7 +45,7 @@ class AddTaskActivity : AppCompatActivity() {
             val task = Task(taskId)
             task.taskTitle = titleOfTask
             task.taskDescription = descOfTask
-            task.date = dateOfTask
+            task.time = dateOfTask.toString()
             task.status = false
 
             if (acct!=null) {

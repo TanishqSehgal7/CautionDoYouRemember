@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class NotesViewModel (val googleId: String,private var notesRepository:NoteRepository = NoteRepository(googleId))
+class NotesViewModel (private val googleId: String, private var notesRepository:NoteRepository = NoteRepository(googleId))
     : ViewModel() {
 
-    val allNotesLiveData: MutableLiveData<NotesResponse>
+//    private val allNotesLiveData: ArrayList<Note>
 
     init {
         notesRepository = NoteRepository(googleId)
-        allNotesLiveData = notesRepository.allNotes
+//        allNotesLiveData = notesRepository.allNotes
     }
 
     fun insertNewNote(note:Note, id:String) {
@@ -22,11 +22,11 @@ class NotesViewModel (val googleId: String,private var notesRepository:NoteRepos
         notesRepository.deleteNote(note,id)
     }
 
-    fun updateNote(note: Note, id:String) {
-        notesRepository.updateNote(note,id)
-    }
+//    fun updateNote(note: Note, id:String) {
+//        notesRepository.updateNote(note,id)
+//    }
 
-    fun noteResponseFromFirebaseAsMutableLiveData(): LiveData<NotesResponse> {
+    fun noteResponseFromFirebaseAsMutableLiveData(): MutableLiveData<NotesResponse> {
       return  notesRepository.noteResponseFromFirebaseAsMutableLiveData()
     }
 

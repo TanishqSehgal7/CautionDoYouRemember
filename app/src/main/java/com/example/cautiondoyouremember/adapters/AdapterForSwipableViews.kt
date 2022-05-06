@@ -10,8 +10,6 @@ import com.example.cautiondoyouremember.fragments.TasksFragment
 
 class AdapterForSwipableViews(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
-    //    private val fragList = ArrayList<Fragment>()
-//    private val titleList = ArrayList<String>()
     override fun getItemCount(): Int {
         return 3
     }

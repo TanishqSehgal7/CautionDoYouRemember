@@ -14,7 +14,7 @@ class TaskRepository(private val googleId: String) {
         task.id=id
         taskReference.child(task.id).child("TaskTitle").setValue(task.taskTitle)
         taskReference.child(task.id).child("TaskDescription").setValue(task.taskDescription)
-        taskReference.child(task.id).child("TaskDate").setValue(task.date)
+        taskReference.child(task.id).child("TaskDate").setValue(task.time)
         taskReference.child(task.id).child("TaskStatus").setValue(false)
 
     }
