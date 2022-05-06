@@ -18,11 +18,11 @@ class AlarmBroascastReceiverForReminders : BroadcastReceiver() {
 
         val intentTarget = Intent(context, MainActivity::class.java)
         var pendingIntent = PendingIntent.getActivity(context, 0, intentTarget, PendingIntent.FLAG_MUTABLE)
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//           pendingIntent = PendingIntent.getActivity(context, 0, intentTarget, PendingIntent.FLAG_IMMUTABLE)
-//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-//            pendingIntent = PendingIntent.getActivity(context, 0, intentTarget, PendingIntent.FLAG_MUTABLE)
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+           pendingIntent = PendingIntent.getActivity(context, 0, intentTarget, PendingIntent.FLAG_IMMUTABLE)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            pendingIntent = PendingIntent.getActivity(context, 0, intentTarget, PendingIntent.FLAG_MUTABLE)
+        }
         val notificationBuilder = context?.let { NotificationCompat.Builder(it, "alarmNotificationForNote") }
         val notificationText=intentTarget.getStringExtra("notificationContent")
 
