@@ -46,7 +46,7 @@ class AddNoteActivity : AppCompatActivity() {
 
             val titleOfNote = binding.NoteTitle.text.toString()
             val descOfNote = binding.NoteDesc.text.toString()
-            val timeOfNote = System.currentTimeMillis().toString()
+            val timeOfNote = System.currentTimeMillis()
 
             val note = Note(noteID, titleOfNote, descOfNote, timeOfNote)
 //            note.noteTitle = titleOfNote

@@ -84,20 +84,24 @@ class NotesFragment : Fragment() {
                 if (snapshot.exists()) {
                     for (noteSnapShot in snapshot.children) {
                         Log.d("Notes", noteSnapShot.toString())
-                        val note: Note = noteSnapShot.getValue(Note::class.java)!!
+                        val noteId = noteSnapShot.key
+                        val noteTitle = noteSnapShot.child("NoteTitle").value
+                        val noteDescription = noteSnapShot.child("NoteDescription").value
+                        val noteTime = noteSnapShot.child("NoteDate").value
+                        val note = Note(noteId,noteTitle.toString(),noteDescription.toString(), noteTime as Long)
                         allNotes.add(note)
-//                        Log.d("Notes", allNotes.toString())
                     }
-                    notesAdapter = NotesAdapter(allNotes)
-                    notesRecyclerView.adapter = notesAdapter
-                    notesAdapter.notifyDataSetChanged()
-//                    notesAdapter.updateNotesList(allNotes)
+                    Log.d("Notes", allNotes.toString())
                 }
             }
             override fun onCancelled(error: DatabaseError) {
             }
         })
 //        getAllNotesFromDb()
+        notesAdapter = NotesAdapter(allNotes)
+        notesRecyclerView.adapter = notesAdapter
+        notesAdapter.updateNotesList(allNotes)
+
         return view
     }
 

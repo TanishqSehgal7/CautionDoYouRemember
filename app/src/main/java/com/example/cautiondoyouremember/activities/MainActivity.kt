@@ -7,16 +7,15 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.cautiondoyouremember.R
 import com.example.cautiondoyouremember.adapters.AdapterForSwipableViews
 import com.example.cautiondoyouremember.databinding.ActivityMainBinding
 import com.example.cautiondoyouremember.receivers.AlarmBroascastReceiverForFaceRecognition
-import com.example.cautiondoyouremember.receivers.AlarmBroascastReceiverForReminders
 import com.example.cautiondoyouremember.reminders.FaceRecoognitionData
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.material.tabs.TabLayout
@@ -86,14 +85,19 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     for (faceRecogRecord in snapshot.children) {
+                        val whoGotRecognized = faceRecogRecord.value as String
+                        val notificationStatus = faceRecogRecord.child("notificationStatus").value as Boolean
+                        val recognitionTime = faceRecogRecord.child("RecognitionTime").value as Long
+
+                        val faceRecogData = FaceRecoognitionData(whoGotRecognized, recognitionTime, notificationStatus)
+                        faceRecognitionArrayList.add(faceRecogData)
                         Log.d("FaceRecognitionData", faceRecogRecord.toString())
-                        val recognitionTime = faceRecogRecord.child("RecognitionTime").value
-                        Log.d("FaceRecognitionData", recognitionTime.toString())
-                        if (faceRecogRecord.child("WhoGotRecognized").value==acct?.givenName && faceRecogRecord.child("notificationStatus").value == false)  {
-//                            if (recognitionTime == (System.currentTimeMillis() - THRESHOLD_TIME_FOR_FACE_RECOGNITION)) {
-                                setAlarm()
-//                            }
+
+                        if (System.currentTimeMillis() <= recognitionTime + THRESHOLD_TIME_FOR_FACE_RECOGNITION ) {
+                            setAlarm()
                         }
+                        Log.d("FaceRecognitionData", faceRecogRecord.toString())
+
                     }
                 }
             }

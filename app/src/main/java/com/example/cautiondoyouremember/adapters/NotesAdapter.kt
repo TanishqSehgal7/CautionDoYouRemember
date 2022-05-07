@@ -26,14 +26,14 @@ class NotesAdapter(private var allNotesFromDatabase:ArrayList<Note>
         val currentNote = allNotesFromDatabase[position]
         holder.noteTitle.text = currentNote.noteTitle
         holder.noteDescription.text = currentNote.noteDesc
-        holder.noteDate.text = currentNote.time
+        holder.noteDate.text = currentNote.time.toString()
     }
 
-//    fun updateNotesList(updatedList:List<Note>) {
-////        allNotesFromDatabase.clear()
-////        allNotesFromDatabase = (updatedList as ArrayList<Note>).clone() as ArrayList<Note>
-//        notifyDataSetChanged()
-//    }
+    fun updateNotesList(updatedList:List<Note>) {
+        allNotesFromDatabase.clear()
+        allNotesFromDatabase = (updatedList as ArrayList<Note>).clone() as ArrayList<Note>
+        notifyDataSetChanged()
+    }
 
     override fun getItemCount(): Int {
        return allNotesFromDatabase.size
