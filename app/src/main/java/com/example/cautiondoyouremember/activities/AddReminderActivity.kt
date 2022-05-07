@@ -35,6 +35,7 @@ class AddReminderActivity : AppCompatActivity() {
     lateinit var alarmManager: AlarmManager
     lateinit var pendingIntent: PendingIntent
     private var reminderTime by Delegates.notNull<Long>()
+    private var reminderDesc by Delegates.notNull<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,31 +51,29 @@ class AddReminderActivity : AppCompatActivity() {
         val acct = GoogleSignIn.getLastSignedInAccount(this)
         val reminderRepository = ReminderRepository(acct?.id.toString())
 
-        viewModel = ViewModelProvider(this,ReminderViewModelFactory(reminderRepository,this))
+        viewModel = ViewModelProvider(this, ReminderViewModelFactory(reminderRepository, this))
             .get(ReminderViewModel::class.java)
 
         binding.scheduleAlarm.setOnClickListener {
             showTimePicker()
-        }
-
         binding.saveRemider.setOnClickListener {
             if (binding.reminderDesc.text?.isEmpty() == true) {
                 binding.reminderDesc.requestFocus()
                 binding.reminderDesc.error = "Reminder Description Can't be empty!"
             } else {
-
-                val reminderDesc = binding.reminderDesc.text.toString()
+                reminderDesc = binding.reminderDesc.text.toString()
+                intent.putExtra("notificationText",binding.reminderDesc.text.toString())
                 val isReminderCompletedStatus = false
-
-                intent.putExtra("notificationContent", reminderDesc)
 
                 val reminder = Reminder(reminderId)
                 reminder.reminderDescription = reminderDesc
                 reminder.reminderTime = reminderTime.toString()
                 reminder.isreminderCompletedStatus = isReminderCompletedStatus
 
-                if (acct!==null) {
-                    viewModel.insertNewReminder(reminder,reminderId)
+                val intent = Intent()
+                intent.putExtra("notificationText",reminder.reminderDescription)
+
+                    viewModel.insertNewReminder(reminder, reminderId)
                     waitingDialog = SpotsDialog.Builder().setContext(this)
                         .setMessage("Saving Reminder...")
                         .setCancelable(true)
@@ -87,10 +86,10 @@ class AddReminderActivity : AppCompatActivity() {
                                 }
                             }, 2000)
                         }
-                }
-                setAlarm()
-            }
+                    }
+            setAlarm()
         }
+    }
 
         createNotificationChannelForAlarm()
 
@@ -113,7 +112,10 @@ class AddReminderActivity : AppCompatActivity() {
     fun showTimePicker() {
         timePicker=MaterialTimePicker.Builder()
             .setTimeFormat(TimeFormat.CLOCK_12H)
-            .setHour(12).setMinute(0).setTitleText("Select Time").build()
+            .setHour(12)
+            .setMinute(0)
+            .setTitleText("Select Time")
+            .build()
 
         timePicker.show(supportFragmentManager,"alarmNotificationForNote")
         timePicker.addOnPositiveButtonClickListener {
@@ -123,8 +125,8 @@ class AddReminderActivity : AppCompatActivity() {
             calendar.set(Calendar.SECOND,0)
             calendar.set(Calendar.MILLISECOND,0)
             reminderTime = calendar.timeInMillis
-            val broadcastIntent = Intent(application, AlarmBroascastReceiverForReminders::class.java)
-            sendBroadcast(broadcastIntent)
+//            val broadcastIntent = Intent(application, AlarmBroascastReceiverForReminders::class.java)
+//            sendBroadcast(broadcastIntent)
         }
     }
 
@@ -134,10 +136,10 @@ class AddReminderActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             pendingIntent = PendingIntent.getBroadcast(this, 0,intent,PendingIntent.FLAG_IMMUTABLE)
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                pendingIntent = PendingIntent.getBroadcast(this, 0,intent,PendingIntent.FLAG_MUTABLE)
+            pendingIntent = PendingIntent.getBroadcast(this, 0,intent,PendingIntent.FLAG_MUTABLE)
         }
 //        pendingIntent = PendingIntent.getBroadcast(this, 0,intent,PendingIntent.FLAG_MUTABLE)
-        alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.timeInMillis,pendingIntent)
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP,reminderTime,pendingIntent)
     }
 
 }

@@ -81,11 +81,12 @@ class NotesFragment : Fragment() {
         noteReference.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 Log.d("SnapshotString", snapshot.child("3602ff95-24c2-4488-a88a-330e9d97f0f8").child("NoteTitle").value.toString())
-                if (snapshot.exists() &&  snapshot.hasChildren()) {
+                if (snapshot.exists()) {
                     for (noteSnapShot in snapshot.children) {
+                        Log.d("Notes", noteSnapShot.toString())
                         val note: Note = noteSnapShot.getValue(Note::class.java)!!
                         allNotes.add(note)
-                        Log.d("Notes", allNotes.toString())
+//                        Log.d("Notes", allNotes.toString())
                     }
                     notesAdapter = NotesAdapter(allNotes)
                     notesRecyclerView.adapter = notesAdapter
