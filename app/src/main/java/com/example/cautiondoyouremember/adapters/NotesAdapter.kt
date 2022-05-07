@@ -39,7 +39,7 @@ class NotesAdapter(private var allNotesFromDatabase:ArrayList<Note>
        return allNotesFromDatabase.size
     }
 
-    inner class NotesRvAdapterViewHolder(view:View) : RecyclerView.ViewHolder(view) {
+    class NotesRvAdapterViewHolder(view:View) : RecyclerView.ViewHolder(view) {
         val noteTitle:TextView = view.findViewById(R.id.noteTitle)
         val noteDescription: TextView = view.findViewById(R.id.noteDesc)
         val noteDate: TextView = view.findViewById(R.id.noteDate)

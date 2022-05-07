@@ -30,9 +30,6 @@ class NotesFragment : Fragment() {
 //    var adapter: FirebaseRecyclerAdapter<Note, NotesViewHolder>? = null
     private lateinit var viewModel: NotesViewModel
     private lateinit var allNotes:ArrayList<Note>
-    private val acct = activity?.let { GoogleSignIn.getLastSignedInAccount(it.applicationContext) }
-    private val rootReferenceForNotes: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
-    private val noteReference: DatabaseReference = rootReferenceForNotes.child(acct?.id.toString()).child("Notes")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,13 +38,17 @@ class NotesFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
 
+        val acct = GoogleSignIn.getLastSignedInAccount(this.requireContext())
+        val rootReferenceForNotes: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
+        val noteReference: DatabaseReference = rootReferenceForNotes.child(acct?.id.toString()).child("Notes")
+
         val view:View = inflater.inflate(R.layout.fragment_notes, container, false)
         val notesRepository = NoteRepository(acct?.id.toString())
 
         notesRecyclerView = view.findViewById(R.id.notesRv)
         notesRecyclerView.setHasFixedSize(true)
-
-        allNotes = arrayListOf<Note>()
+        allNotes = ArrayList<Note>()
+        Log.d("GoogleId", acct?.id.toString())
 
 //        val options = FirebaseRecyclerOptions.Builder<Note>().setQuery(noteReference, object :SnapshotParser<Note> {
 //            override fun parseSnapshot(snapshot: DataSnapshot): Note {
@@ -80,7 +81,7 @@ class NotesFragment : Fragment() {
 
         noteReference.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                Log.d("SnapshotString", snapshot.child("3602ff95-24c2-4488-a88a-330e9d97f0f8").child("NoteTitle").value.toString())
+                Log.d("SnapshotString", snapshot.value.toString())
                 if (snapshot.exists()) {
                     for (noteSnapShot in snapshot.children) {
                         Log.d("Notes", noteSnapShot.toString())
@@ -88,20 +89,22 @@ class NotesFragment : Fragment() {
                         val noteTitle = noteSnapShot.child("NoteTitle").value
                         val noteDescription = noteSnapShot.child("NoteDescription").value
                         val noteTime = noteSnapShot.child("NoteDate").value
-                        val note = Note(noteId,noteTitle.toString(),noteDescription.toString(), noteTime as Long)
+                        val note = Note(noteId,noteTitle.toString(),noteDescription.toString(), noteTime.toString())
                         allNotes.add(note)
                     }
-                    Log.d("Notes", allNotes.toString())
+                    notesAdapter.updateNotesList(allNotes)
                 }
             }
             override fun onCancelled(error: DatabaseError) {
             }
         })
-//        getAllNotesFromDb()
+
         notesAdapter = NotesAdapter(allNotes)
         notesRecyclerView.adapter = notesAdapter
-        notesAdapter.updateNotesList(allNotes)
+        notesAdapter.onAttachedToRecyclerView(notesRecyclerView)
+        Log.d("Notes", allNotes.toString())
 
+//        getAllNotesFromDb()
         return view
     }
 

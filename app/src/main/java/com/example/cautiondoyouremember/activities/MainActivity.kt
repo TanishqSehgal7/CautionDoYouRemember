@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     for (faceRecogRecord in snapshot.children) {
-                        val whoGotRecognized = faceRecogRecord.value as String
+                        val whoGotRecognized = faceRecogRecord.child("WhoGotRecognized").value as String
                         val notificationStatus = faceRecogRecord.child("notificationStatus").value as Boolean
                         val recognitionTime = faceRecogRecord.child("RecognitionTime").value as Long
 
@@ -96,8 +96,6 @@ class MainActivity : AppCompatActivity() {
                         if (System.currentTimeMillis() <= recognitionTime + THRESHOLD_TIME_FOR_FACE_RECOGNITION ) {
                             setAlarm()
                         }
-                        Log.d("FaceRecognitionData", faceRecogRecord.toString())
-
                     }
                 }
             }

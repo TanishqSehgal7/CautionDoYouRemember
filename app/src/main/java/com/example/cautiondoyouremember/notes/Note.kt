@@ -6,7 +6,7 @@ import com.google.firebase.database.IgnoreExtraProperties
 data class Note(val id:String?="",
                 val noteTitle:String?="",
                 val noteDesc:String?="",
-                val time:Long=0L) {
+                val time:String?="") {
 
 }
 //{
