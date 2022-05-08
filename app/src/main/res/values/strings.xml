@@ -23,4 +23,5 @@
     <string name="start_capturing_face">Start Capturing Face</string>
     <string name="image_count">Image Count:</string>
     <string name="content_of_note">Content of Note...</string>
+    <string name="folowing_are_the_reminders_you_need_to_keep_a_track_of">Folowing are the reminders you need to keep a track of</string>
 </resources>

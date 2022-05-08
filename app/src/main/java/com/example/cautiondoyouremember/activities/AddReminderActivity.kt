@@ -86,12 +86,12 @@ class AddReminderActivity : AppCompatActivity() {
                                 }
                             }, 2000)
                         }
+                val intent = Intent()
+                intent.putExtra("notificationText",reminderDesc)
                     }
             setAlarm()
         }
     }
-        val intent = Intent()
-        intent.putExtra("notificationText",reminderDesc)
         createNotificationChannelForAlarm()
     }
 

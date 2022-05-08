@@ -99,6 +99,7 @@ class MainActivity : AppCompatActivity() {
                 if (System.currentTimeMillis() < faceData.whenFaceGotRecognized + THRESHOLD_TIME_FOR_FACE_RECOGNITION || faceData.notificationStatus) {
                     Log.d("ConditionSatisfied", "Notification Triggered")
                     setAlarm()
+                    break
                 }
             }
         }
