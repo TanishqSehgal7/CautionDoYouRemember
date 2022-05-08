@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
@@ -12,8 +13,8 @@ import androidx.core.content.ContextCompat
 import com.example.cautiondoyouremember.R
 import com.example.cautiondoyouremember.activities.FaceRecognitionResultIntent
 
-class AlarmBroascastReceiverForFaceRecognition: BroadcastReceiver() {
 
+class AlarmBroascastReceiverForFaceRecognition: BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
 
@@ -33,7 +34,7 @@ class AlarmBroascastReceiverForFaceRecognition: BroadcastReceiver() {
             ?.setAutoCancel(true)
             ?.setDefaults(NotificationCompat.DEFAULT_ALL)?.priority = NotificationCompat.PRIORITY_MAX
 
-        val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+        val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         notificationBuilder?.setSound(alarmSound)?.setColor(ContextCompat.getColor(context,R.color.Red))
         notificationBuilder?.setContentIntent(pendingIntent)
 

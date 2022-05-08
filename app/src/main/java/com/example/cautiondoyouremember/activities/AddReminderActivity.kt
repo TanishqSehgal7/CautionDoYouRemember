@@ -10,6 +10,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.example.cautiondoyouremember.databinding.ActivityAddReminderBinding
 import com.example.cautiondoyouremember.receivers.AlarmBroascastReceiverForReminders
@@ -68,9 +69,13 @@ class AddReminderActivity : AppCompatActivity() {
 
             } else {
                 reminderDesc = binding.reminderDesc.text.toString()
-                intent.putExtra("notificationText",binding.reminderDesc.text.toString())
-                val isReminderCompletedStatus = false
+                val intent = Intent(this,AlarmBroascastReceiverForReminders::class.java)
+                val bundle = Bundle()
+                bundle.putString("ReminderNotiText",reminderDesc)
+                intent.putExtras(bundle)
+                Log.d("ReminderNotiText", reminderDesc)
 
+                val isReminderCompletedStatus = false
                 val reminder = Reminder(reminderDesc, reminderTime.toString(),isReminderCompletedStatus)
 
                     viewModel.insertNewReminder(reminder, reminderId)
@@ -86,8 +91,6 @@ class AddReminderActivity : AppCompatActivity() {
                                 }
                             }, 2000)
                         }
-                val intent = Intent()
-                intent.putExtra("notificationText",reminderDesc)
                     }
             setAlarm()
         }

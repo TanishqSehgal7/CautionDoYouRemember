@@ -132,6 +132,5 @@ class MainActivity : AppCompatActivity() {
         alarmManager.setExact(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),pendingIntent)
         Log.d("ConditionSatisfied", "Notification Sent")
     }
-
 }
 

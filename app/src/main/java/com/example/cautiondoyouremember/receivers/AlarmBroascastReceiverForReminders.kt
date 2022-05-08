@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.Intent.getIntent
 import android.media.RingtoneManager
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -27,11 +28,12 @@ class AlarmBroascastReceiverForReminders : BroadcastReceiver() {
         val notificationBuilder = context?.let { NotificationCompat.Builder(it, "alarmNotificationForNote") }
 //        val notificationText=intent?.getStringExtra("notificationText")
 
-        val getNotificationText = intent?.extras?.getString("notificationText")
+        val getNotificationText = intent?.extras?.getString("ReminderNotiText")
+        Log.d("notificationText", getNotificationText.toString())
 
         notificationBuilder?.setSmallIcon(R.drawable.ic_baseline_alarm_24)
             ?.setContentTitle("Reminder!!")
-            ?.setContentText(getNotificationText)
+            ?.setContentText("You have got a reminder. Click to Check")
             ?.setAutoCancel(true)
             ?.setDefaults(NotificationCompat.DEFAULT_ALL)?.priority = NotificationCompat.PRIORITY_MAX
 
