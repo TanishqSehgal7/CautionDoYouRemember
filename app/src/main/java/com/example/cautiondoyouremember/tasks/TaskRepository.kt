@@ -1,14 +1,17 @@
 package com.example.cautiondoyouremember.tasks
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.example.cautiondoyouremember.notes.Note
+import com.google.firebase.database.*
 
 class TaskRepository(private val googleId: String) {
 
     private val rootReferenceForTasks: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
     private val taskReference: DatabaseReference = rootReferenceForTasks.child(googleId).child("Tasks")
 
-    val allTasks: MutableLiveData<TaskResponse> = taskResponseFromFirebaseAsMutableLiveData()
+//    val allTasks: MutableLiveData<TaskResponse> = taskResponseFromFirebaseAsMutableLiveData()
+    var allTasks: MutableLiveData<List<Task>>? = null
 
     fun insertNewTask(task:Task, id:String) {
         task.id=id
@@ -21,6 +24,35 @@ class TaskRepository(private val googleId: String) {
 
     fun deleteNote(task: Task, id:String) {
         taskReference.child(task.id).removeValue()
+    }
+
+    fun getTasks() : LiveData<List<Task>> {
+        if (allTasks==null) {
+            allTasks = MutableLiveData()
+            getListOfTasks()
+        }
+        return allTasks!!
+    }
+
+    fun getListOfTasks() : LiveData<List<Task>> {
+        allTasks = MutableLiveData()
+        val list = arrayListOf<Task>()
+
+        taskReference.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                list.clear()
+                for (noteItems in snapshot.children) {
+                    val noteItem = noteItems.getValue(Task::class.java)
+                    noteItem?.let { list.add(it) }
+                }
+                allTasks?.postValue(list)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d("TaskList", error.toString())
+            }
+        })
+        return allTasks!!
     }
 
 

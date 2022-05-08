@@ -1,8 +1,6 @@
 package com.example.cautiondoyouremember.tasks
 
-data class Task(var id:String="") {
-    var taskTitle:String?=null
-    var taskDescription:String?=null
-    var status:Boolean = false
-    var time:String?=null
-}
+data class Task(var id:String="", val taskTitle:String?=null,
+                val taskDescription:String?=null,
+                val status:Boolean = false,
+                val time:String?=null)

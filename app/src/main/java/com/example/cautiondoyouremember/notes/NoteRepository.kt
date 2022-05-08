@@ -10,7 +10,7 @@ class NoteRepository (private val googleId: String) {
     private val rootReferenceForNotes: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
     private val noteReference: DatabaseReference = rootReferenceForNotes.child(googleId).child("Notes")
 
-//    val allNotes: ArrayList<Note> = getAllNotesFromDb()
+    var allNotes: MutableLiveData<List<Note>>? = null
 
     fun insertNewNote(note:Note, id:String) {
 //        note.id=id
@@ -31,8 +31,38 @@ class NoteRepository (private val googleId: String) {
 ////        insertNewNote(note,id)
 //    }
 
-    fun noteResponseFromFirebaseAsMutableLiveData(): MutableLiveData<NotesResponse> {
+    fun getNotes() : LiveData<List<Note>> {
+        if (allNotes==null) {
+            allNotes = MutableLiveData()
+            getListOfNotes()
+        }
+        return allNotes!!
+    }
 
+    fun getListOfNotes() : LiveData<List<Note>> {
+        allNotes = MutableLiveData()
+        val list = arrayListOf<Note>()
+
+        rootReferenceForNotes.child(googleId).child("Notes").addValueEventListener(object:ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                list.clear()
+                for (noteItems in snapshot.children) {
+                    val noteItem = noteItems.getValue(Note::class.java)
+                    noteItem?.let { list.add(it) }
+                }
+                allNotes?.postValue(list)
+                Log.d("NoteList", list.toString())
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d("NoteList", error.toString())
+            }
+        })
+        return allNotes!!
+    }
+
+
+    fun noteResponseFromFirebaseAsMutableLiveData(): MutableLiveData<NotesResponse> {
         val mutableLiveDataForNotes = MutableLiveData<NotesResponse>()
         noteReference.get().addOnCompleteListener { task->
             val response = NotesResponse()

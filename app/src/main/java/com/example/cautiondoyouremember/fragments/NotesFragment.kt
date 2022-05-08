@@ -6,19 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.cautiondoyouremember.R
+import com.example.cautiondoyouremember.activities.MainActivity
 import com.example.cautiondoyouremember.adapters.NotesAdapter
-import com.example.cautiondoyouremember.adapters.NotesViewHolder
 import com.example.cautiondoyouremember.notes.Note
 import com.example.cautiondoyouremember.notes.NoteRepository
 import com.example.cautiondoyouremember.notes.NotesViewModel
-import com.firebase.ui.database.FirebaseRecyclerAdapter
-import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.firebase.ui.database.SnapshotParser
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.database.*
 
@@ -46,9 +46,21 @@ class NotesFragment : Fragment() {
         val notesRepository = NoteRepository(acct?.id.toString())
 
         notesRecyclerView = view.findViewById(R.id.notesRv)
-        notesRecyclerView.setHasFixedSize(true)
+//        viewModel = ViewModelProvider(this, NotesViewModelFactory(notesRepository, this.requireContext())).get(NotesViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(NotesViewModel::class.java)
         allNotes = ArrayList<Note>()
-        Log.d("GoogleId", acct?.id.toString())
+
+        viewModel.allNotesLiveData.observe(viewLifecycleOwner) {
+            notesRecyclerView.setHasFixedSize(true)
+            notesRecyclerView.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+            allNotes = it as ArrayList<Note>
+            notesAdapter = NotesAdapter(allNotes)
+            notesRecyclerView.adapter = notesAdapter
+            Log.d("AllNotes", it.toString())
+        }
+//        Log.d("GoogleId", acct?.id.toString())
+
+
 
 //        val options = FirebaseRecyclerOptions.Builder<Note>().setQuery(noteReference, object :SnapshotParser<Note> {
 //            override fun parseSnapshot(snapshot: DataSnapshot): Note {
@@ -79,7 +91,7 @@ class NotesFragment : Fragment() {
 //        notesRecyclerView.layoutManager = gridLayoutInflater
 //        notesRecyclerView.adapter = adapter
 
-        noteReference.addValueEventListener(object : ValueEventListener{
+        noteReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 Log.d("SnapshotString", snapshot.value.toString())
                 if (snapshot.exists()) {
@@ -102,8 +114,6 @@ class NotesFragment : Fragment() {
         notesAdapter = NotesAdapter(allNotes)
         notesRecyclerView.adapter = notesAdapter
         notesAdapter.onAttachedToRecyclerView(notesRecyclerView)
-        Log.d("Notes", allNotes.toString())
-
 //        getAllNotesFromDb()
         return view
     }

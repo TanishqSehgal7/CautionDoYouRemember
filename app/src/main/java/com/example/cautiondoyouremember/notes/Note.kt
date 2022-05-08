@@ -3,12 +3,10 @@ package com.example.cautiondoyouremember.notes
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
 
-data class Note(val id:String?="",
-                val noteTitle:String?="",
-                val noteDesc:String?="",
-                val time:String?="") {
-
-}
+data class Note(val id:String?=null,
+                val noteTitle:String?=null,
+                val noteDesc:String?=null,
+                val time:String?=null)
 //{
 
 

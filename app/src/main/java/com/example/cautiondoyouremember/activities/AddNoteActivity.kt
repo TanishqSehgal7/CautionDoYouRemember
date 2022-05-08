@@ -9,7 +9,6 @@ import com.example.cautiondoyouremember.databinding.ActivityAddNoteBinding
 import com.example.cautiondoyouremember.notes.Note
 import com.example.cautiondoyouremember.notes.NoteRepository
 import com.example.cautiondoyouremember.notes.NotesViewModel
-import com.example.cautiondoyouremember.notes.NotesViewModelFactory
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.database.FirebaseDatabase
 import dmax.dialog.SpotsDialog
@@ -38,8 +37,7 @@ class AddNoteActivity : AppCompatActivity() {
         val notesRepository = NoteRepository(acct?.id.toString())
 
         //initialize viewModel
-        viewModel = ViewModelProvider(this, NotesViewModelFactory(notesRepository,this))
-            .get(NotesViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(NotesViewModel::class.java)
 
         // save notes to firebase realtime database
         binding.saveNote.setOnClickListener {
@@ -69,9 +67,6 @@ class AddNoteActivity : AppCompatActivity() {
                     }
             }
         }
-
-        // display all notes
-
 
     }
 }

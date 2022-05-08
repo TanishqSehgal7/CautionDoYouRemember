@@ -21,37 +21,43 @@
 
         <TextView
             android:id="@+id/TaskName"
-            android:layout_margin="10dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/taskname"/>
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/taskname"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/TaskDate"
-            android:layout_margin="10dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/date"/>
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/date"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/TaskDesc"
-            android:layout_marginTop="2dp"
-            android:layout_marginStart="10dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginEnd="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/TaskName"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="10dp"
             android:text="@string/task_description"
-            android:layout_below="@+id/TaskName"/>
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/TaskStatus"
@@ -64,6 +70,7 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/ic_rectangle_20"
             android:text="@string/status"
+            android:gravity="center"
             android:textAlignment="center"
             android:textColor="@color/Green"
             android:textSize="12sp"

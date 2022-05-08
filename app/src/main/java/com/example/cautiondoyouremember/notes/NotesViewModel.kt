@@ -1,17 +1,25 @@
 package com.example.cautiondoyouremember.notes
 
+import android.app.Application
+import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 
-class NotesViewModel (private val googleId: String, private var notesRepository:NoteRepository = NoteRepository(googleId))
-    : ViewModel() {
+class NotesViewModel (
+                      application: Application
+)
+    : AndroidViewModel(application) {
 
-//    private val allNotesLiveData: ArrayList<Note>
+    val googleId = GoogleSignIn.getLastSignedInAccount(application)
+    val notesRepository = NoteRepository(googleId.toString())
+
+    val allNotesLiveData: LiveData<List<Note>> = notesRepository.getNotes()
 
     init {
-        notesRepository = NoteRepository(googleId)
-//        allNotesLiveData = notesRepository.allNotes
+        Log.d("GoogleIdInVM", googleId.toString())
     }
 
     fun insertNewNote(note:Note, id:String) {
@@ -26,8 +34,8 @@ class NotesViewModel (private val googleId: String, private var notesRepository:
 //        notesRepository.updateNote(note,id)
 //    }
 
-    fun noteResponseFromFirebaseAsMutableLiveData(): MutableLiveData<NotesResponse> {
-      return  notesRepository.noteResponseFromFirebaseAsMutableLiveData()
+    fun noteResponseFromFirebaseAsLiveData(): LiveData<List<Note>> {
+      return  notesRepository.getNotes()
     }
 
 }

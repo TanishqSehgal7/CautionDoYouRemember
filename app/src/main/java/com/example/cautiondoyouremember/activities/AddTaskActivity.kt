@@ -40,13 +40,10 @@ class AddTaskActivity : AppCompatActivity() {
         binding.saveTask.setOnClickListener {
             val titleOfTask = binding.NoteTitle.text.toString()
             val descOfTask = binding.NoteDesc.text.toString()
-            val dateOfTask = System.currentTimeMillis()
+            val timeOfTask = System.currentTimeMillis().toString()
+            val statusOfTask = false
 
-            val task = Task(taskId)
-            task.taskTitle = titleOfTask
-            task.taskDescription = descOfTask
-            task.time = dateOfTask.toString()
-            task.status = false
+            val task = Task(taskId, titleOfTask, descOfTask,  statusOfTask, timeOfTask)
 
             if (acct!=null) {
                 viewModel.insertNewTask(task,taskId)
