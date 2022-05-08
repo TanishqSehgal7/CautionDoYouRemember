@@ -24,15 +24,17 @@ class TaskAdapter(private var allTasksFromDatabase:ArrayList<Task>)
 
     override fun onBindViewHolder(holder: TasksRvAdapterViewHolder, position: Int) {
         val currentTask = allTasksFromDatabase[position]
-        holder.taskTitle.text = currentTask.taskTitle
-        holder.taskDesc.text = currentTask.taskDescription
-        holder.taskDate.text = currentTask.time
+        holder.taskTitle.text = currentTask.TaskTitle
+        holder.taskDesc.text = currentTask.TaskDescription
 
-//        val date = currentTask.time?.let { Date(it.toLong()) }
-//        val format = SimpleDateFormat("yyyy.MM.dd HH:mm")
-//        val taskDate = format.format(date)
-
-        holder.taskStatus.text = currentTask.time
+        val datelong: Long? = currentTask.TaskTime?.toLong()
+        val date = currentTask.TaskTime?.let { Date(it) }
+        val format = SimpleDateFormat("dd/MM/yyyy @ hh:mm a")
+        val taskDate = date?.let { format.format(it) }
+        holder.taskDate.text = taskDate
+        if (!currentTask.Status) {
+            holder.taskStatus.text = "Pending"
+        }
     }
 
     override fun getItemCount(): Int {

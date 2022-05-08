@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.*
+import kotlin.math.absoluteValue
 
 class NoteRepository (private val googleId: String) {
 
@@ -13,7 +14,6 @@ class NoteRepository (private val googleId: String) {
     var allNotes = MutableLiveData<List<Note>>()
 
     fun insertNewNote(note:Note, id:String) {
-//        note.id=id
         noteReference.child(id).child("NoteTitle").setValue(note.NoteTitle)
         noteReference.child(id).child("NoteDescription").setValue(note.NoteDescription)
         noteReference.child(id).child("NoteDate").setValue(note.NoteDate)
@@ -32,17 +32,18 @@ class NoteRepository (private val googleId: String) {
 //    }
 
     fun getListOfNotes(){
-        val list = arrayListOf<Note>()
+        val listNotes = arrayListOf<Note>()
         noteReference.addValueEventListener(object:ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                list.clear()
+                listNotes.clear()
                 Log.d("Repo","${snapshot.childrenCount}")
                 for (noteItems in snapshot.children) {
                     val noteItem = noteItems.getValue(Note::class.java)
-                    noteItem?.let { list.add(it) }
+                    noteItem?.let { listNotes.add(it) }
                 }
-                allNotes?.postValue(list)
-                Log.d("NoteList", list.toString())
+                listNotes.sortByDescending { it.NoteDate?.toLong()?.absoluteValue }
+                allNotes.postValue(listNotes)
+                Log.d("NoteList", listNotes.toString())
             }
 
             override fun onCancelled(error: DatabaseError) {

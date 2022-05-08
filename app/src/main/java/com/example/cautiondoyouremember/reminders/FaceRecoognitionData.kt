@@ -1,9 +1,6 @@
 package com.example.cautiondoyouremember.reminders
 
 data class FaceRecoognitionData(
-    val whoGotRecognized:String?="",
+    val whoGotRecognized:String?=null,
     val whenFaceGotRecognized:Long=0L,
-    val notificationStatus: Boolean = false
-) {
-
-}
+    val notificationStatus: Boolean = false)

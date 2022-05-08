@@ -20,7 +20,7 @@
         <activity
             android:name=".activities.FaceDetectorAndCaptureActivity"
             android:exported="false"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.AddReminderActivity"
             android:exported="false" />

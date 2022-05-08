@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.cautiondoyouremember.R
 import com.example.cautiondoyouremember.adapters.TaskAdapter
+import com.example.cautiondoyouremember.notes.Note
 import com.example.cautiondoyouremember.tasks.Task
 import com.example.cautiondoyouremember.tasks.TaskRepository
 import com.example.cautiondoyouremember.tasks.TaskViewModel
-import com.example.cautiondoyouremember.tasks.TaskViewModelFactory
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -42,19 +43,18 @@ class TasksFragment : Fragment() {
         val taskRepository = TaskRepository(acct?.id.toString())
 
         taskRecyclerView = view.findViewById(R.id.tasksRv)
-        viewModel = ViewModelProvider(this, TaskViewModelFactory(taskRepository, this.requireContext())).get(
-            TaskViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
+        allTasks = ArrayList<Task>()
 
         viewModel.allTasksLiveData.observe(viewLifecycleOwner) {
+//            Toast.makeText(requireContext(), "$it[0]", Toast.LENGTH_SHORT).show()
             taskRecyclerView.setHasFixedSize(true)
-            taskRecyclerView.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+            taskRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
             allTasks = it as ArrayList<Task>
             taskAdapter = TaskAdapter(allTasks)
             taskRecyclerView.adapter = taskAdapter
             Log.d("AllTasks", it.toString())
         }
-
-
         return view
     }
 }

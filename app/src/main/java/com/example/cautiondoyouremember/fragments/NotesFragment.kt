@@ -25,10 +25,8 @@ import com.google.firebase.database.*
 
 class NotesFragment : Fragment() {
 
-    private val allNotesFromDatabase=ArrayList<Note>()
     lateinit var notesRecyclerView: RecyclerView
     lateinit var notesAdapter: NotesAdapter
-//    var adapter: FirebaseRecyclerAdapter<Note, NotesViewHolder>? = null
     private lateinit var viewModel: NotesViewModel
     private lateinit var allNotes:ArrayList<Note>
 
@@ -52,7 +50,7 @@ class NotesFragment : Fragment() {
         allNotes = ArrayList<Note>()
 
         viewModel.allNotesLiveData.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), "$it[0]", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(requireContext(), "$it[0]", Toast.LENGTH_SHORT).show()
             notesRecyclerView.setHasFixedSize(true)
             notesRecyclerView.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
             allNotes = it as ArrayList<Note>
@@ -60,95 +58,30 @@ class NotesFragment : Fragment() {
             notesRecyclerView.adapter = notesAdapter
             Log.d("AllNotes", it.toString())
         }
-//        Log.d("GoogleId", acct?.id.toString())
-
-
-
-//        val options = FirebaseRecyclerOptions.Builder<Note>().setQuery(noteReference, object :SnapshotParser<Note> {
-//            override fun parseSnapshot(snapshot: DataSnapshot): Note {
-//                return Note()
-//            }
-//        }).build()
-
-//        Log.d("Options"," data : "+options.snapshots.forEach { note ->
-//            note.id.toString() + " " + note.noteTitle.toString() + " " + note.noteDesc.toString()
-//        });
-
-//        adapter = object : FirebaseRecyclerAdapter<Note, NotesViewHolder>(options) {
-//            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
-//                val viewHolder = NotesViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.note_item_card,parent,false))
-//                return viewHolder
-//            }
-//
-//            override fun onBindViewHolder(holder: NotesViewHolder, position: Int, note: Note) {
-////                val currentNote = allNotesFromDatabase[position]
-//                holder.noteTitle.text = note.noteTitle
-//                holder.noteDescription.text = note.noteDesc
-//                holder.noteDate.text = note.time
-//                Log.d("NoteTitle", note.noteTitle.toString())
-//            }
-//        }
-//        adapter?.startListening();
-//        val gridLayoutInflater= GridLayoutManager(activity?.applicationContext,2)
-//        notesRecyclerView.layoutManager = gridLayoutInflater
-//        notesRecyclerView.adapter = adapter
-
-        noteReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                Log.d("SnapshotString", snapshot.value.toString())
-                if (snapshot.exists()) {
-                    for (noteSnapShot in snapshot.children) {
-                        Log.d("Notes", noteSnapShot.toString())
-                        val noteId = noteSnapShot.key
-                        val noteTitle = noteSnapShot.child("NoteTitle").value
-                        val noteDescription = noteSnapShot.child("NoteDescription").value
-                        val noteTime = noteSnapShot.child("NoteDate").value
-                        val note = Note(noteTitle.toString(),noteDescription.toString(), noteTime.toString())
-                        allNotes.add(note)
-                    }
-                    notesAdapter.updateNotesList(allNotes)
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-            }
-        })
-
-        notesAdapter = NotesAdapter(allNotes)
-        notesRecyclerView.adapter = notesAdapter
-        notesAdapter.onAttachedToRecyclerView(notesRecyclerView)
-//        getAllNotesFromDb()
-        return view
-    }
-
-//    private fun getAllNotesFromDb() {
-//        noteReference.addValueEventListener(object : ValueEventListener{
+//        noteReference.addValueEventListener(object : ValueEventListener {
 //            override fun onDataChange(snapshot: DataSnapshot) {
-//                allNotes.clear()
-//                if (snapshot.exists() &&  snapshot.hasChildren()) {
+//                Log.d("SnapshotString", snapshot.value.toString())
+//                if (snapshot.exists()) {
 //                    for (noteSnapShot in snapshot.children) {
-//                        val note: Note? = noteSnapShot.getValue(Note::class.java)
-//                        Log.d("SingleNote", note.toString())
-//                        allNotes.add(note!!)
-//                        Log.d("Notes", allNotes.toString())
+//                        Log.d("Notes", noteSnapShot.toString())
+//                        val noteId = noteSnapShot.key
+//                        val noteTitle = noteSnapShot.child("NoteTitle").value
+//                        val noteDescription = noteSnapShot.child("NoteDescription").value
+//                        val noteTime = noteSnapShot.child("NoteDate").value
+//                        val note = Note(noteTitle.toString(),noteDescription.toString(), noteTime.toString())
+//                        allNotes.add(note)
 //                    }
-//                    notesAdapter = NotesAdapter(allNotes)
-//                    notesRecyclerView.adapter = notesAdapter
+//                    notesAdapter.updateNotesList(allNotes)
 //                }
 //            }
-//
 //            override fun onCancelled(error: DatabaseError) {
 //            }
 //        })
-//    }
-
-//    override fun onStart() {
-//        super.onStart()
-//        adapter?.startListening()
-//    }
 //
-//    override fun onStop() {
-//        super.onStop()
-//        adapter?.stopListening()
-//    }
-
+//        notesAdapter = NotesAdapter(allNotes)
+//        notesRecyclerView.adapter = notesAdapter
+//        notesAdapter.onAttachedToRecyclerView(notesRecyclerView)
+//        getAllNotesFromDb()
+        return view
+    }
 }

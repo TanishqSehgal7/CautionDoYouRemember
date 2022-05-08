@@ -1,20 +1,25 @@
 package com.example.cautiondoyouremember.tasks
 
+import android.app.Application
+import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cautiondoyouremember.notes.Note
 import com.example.cautiondoyouremember.notes.NoteRepository
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 
-class TaskViewModel(val googleId: String,
- private var taskRepository: TaskRepository = TaskRepository(googleId))
-    : ViewModel(){
+class TaskViewModel(application: Application) : AndroidViewModel(application){
 
-    val allTasksLiveData: LiveData<List<Task>> = taskRepository.getTasks()
+    val googleId = GoogleSignIn.getLastSignedInAccount(application)
+    val taskRepository = TaskRepository(googleId?.id.toString())
+
+    val allTasksLiveData: LiveData<List<Task>> = taskRepository.allTasks
 
         init {
-            taskRepository = TaskRepository(googleId)
-//            allTasksLiveData = taskRepository.allTasks
+            Log.d("GoogleIdInVM", googleId.toString())
+            taskRepository.getListOfTasks()
         }
 
     fun insertNewTask(task:Task,id:String) {
@@ -24,10 +29,4 @@ class TaskViewModel(val googleId: String,
     fun deleteTask(task:Task,id:String) {
         taskRepository.deleteNote(task,id)
     }
-
-    fun taskResponseFromFirebaseAsMutableLiveData(): LiveData<List<Task>> {
-        return taskRepository.getListOfTasks()
-    }
-
-
 }

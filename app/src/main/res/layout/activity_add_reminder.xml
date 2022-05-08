@@ -17,7 +17,7 @@
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintBottom_toTopOf="@+id/NoteTitle"
-        app:layout_constraintEnd_toStartOf="@+id/TaskDate"
+        app:layout_constraintEnd_toStartOf="@+id/dateInReminder"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -33,7 +33,7 @@
         android:background="@drawable/alarm_btn_bg"
         android:src="@drawable/ic_baseline_alarm_24"
         app:layout_constraintBottom_toTopOf="@+id/NoteTitle"
-        app:layout_constraintEnd_toStartOf="@+id/TaskDate"
+        app:layout_constraintEnd_toStartOf="@+id/dateInReminder"
         app:layout_constraintHorizontal_bias="0.918"
         app:layout_constraintStart_toEndOf="@+id/backbtnReminderAct"
         app:layout_constraintTop_toTopOf="parent"
@@ -41,7 +41,7 @@
         android:foreground="?attr/selectableItemBackground"/>
 
     <TextView
-        android:id="@+id/TaskDate"
+        android:id="@+id/dateInReminder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
@@ -70,7 +70,7 @@
         android:text="@string/remind_me_to"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TaskDate" />
+        app:layout_constraintTop_toBottomOf="@+id/dateInReminder" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/reminderDesc"

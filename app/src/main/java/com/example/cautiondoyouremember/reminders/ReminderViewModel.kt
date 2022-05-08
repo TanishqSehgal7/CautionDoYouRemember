@@ -1,19 +1,24 @@
 package com.example.cautiondoyouremember.reminders
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import kotlinx.coroutines.Dispatchers
 
-class ReminderViewModel(val googleId:String,
-private var reminderRepository: ReminderRepository = ReminderRepository(googleId))
-    : ViewModel(){
+class ReminderViewModel(application: Application) : AndroidViewModel(application){
 
-     val allReminderLiveData: MutableLiveData<ReminderResponse>
+
+    val googleId = GoogleSignIn.getLastSignedInAccount(application)
+    val reminderRepository = ReminderRepository(googleId?.id.toString())
+    val allReminderLiveData : LiveData<List<Reminder>> = reminderRepository.allReminders
+    val allFaceRecognitionRecords : LiveData<List<FaceRecoognitionData>> = reminderRepository.allFaceRecogRecords
 
      init {
-         reminderRepository = ReminderRepository(googleId)
-         allReminderLiveData = reminderRepository.allReminders
+         reminderRepository.getListOfReminders()
+         reminderRepository.getFaceRecognitionRecords()
      }
 
     fun insertNewReminder(reminder: Reminder, id:String) {
@@ -22,10 +27,6 @@ private var reminderRepository: ReminderRepository = ReminderRepository(googleId
 
     fun deleteReminder(reminder: Reminder,id:String) {
         reminderRepository.deleteReminder(reminder,id)
-    }
-
-    fun reminderResponseFirebaseasMutableLiveData(): LiveData<ReminderResponse> {
-        return reminderRepository.reminderResponseFromFirebaseAsMutableLiveData()
     }
 
 }

@@ -16,11 +16,11 @@ import com.example.cautiondoyouremember.receivers.AlarmBroascastReceiverForRemin
 import com.example.cautiondoyouremember.reminders.Reminder
 import com.example.cautiondoyouremember.reminders.ReminderRepository
 import com.example.cautiondoyouremember.reminders.ReminderViewModel
-import com.example.cautiondoyouremember.reminders.ReminderViewModelFactory
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dmax.dialog.SpotsDialog
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -48,11 +48,16 @@ class AddReminderActivity : AppCompatActivity() {
             finish()
         }
 
+        val dateLong = System.currentTimeMillis()
+        val date = dateLong.let { Date(it) }
+        val format =  SimpleDateFormat("dd/MM/yyyy @ hh:mm a")
+        val reminderDate = format.format(date)
+        binding.dateInReminder.text = reminderDate
+
         val acct = GoogleSignIn.getLastSignedInAccount(this)
         val reminderRepository = ReminderRepository(acct?.id.toString())
 
-        viewModel = ViewModelProvider(this, ReminderViewModelFactory(reminderRepository, this))
-            .get(ReminderViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ReminderViewModel::class.java)
 
         binding.scheduleAlarm.setOnClickListener {
             showTimePicker()
@@ -60,18 +65,13 @@ class AddReminderActivity : AppCompatActivity() {
             if (binding.reminderDesc.text?.isEmpty() == true) {
                 binding.reminderDesc.requestFocus()
                 binding.reminderDesc.error = "Reminder Description Can't be empty!"
+
             } else {
                 reminderDesc = binding.reminderDesc.text.toString()
                 intent.putExtra("notificationText",binding.reminderDesc.text.toString())
                 val isReminderCompletedStatus = false
 
-                val reminder = Reminder(reminderId)
-                reminder.reminderDescription = reminderDesc
-                reminder.reminderTime = reminderTime.toString()
-                reminder.isreminderCompletedStatus = isReminderCompletedStatus
-
-                val intent = Intent()
-                intent.putExtra("notificationText",reminder.reminderDescription)
+                val reminder = Reminder(reminderDesc, reminderTime.toString(),isReminderCompletedStatus)
 
                     viewModel.insertNewReminder(reminder, reminderId)
                     waitingDialog = SpotsDialog.Builder().setContext(this)
@@ -90,9 +90,9 @@ class AddReminderActivity : AppCompatActivity() {
             setAlarm()
         }
     }
-
+        val intent = Intent()
+        intent.putExtra("notificationText",reminderDesc)
         createNotificationChannelForAlarm()
-
     }
 
     private fun createNotificationChannelForAlarm() {

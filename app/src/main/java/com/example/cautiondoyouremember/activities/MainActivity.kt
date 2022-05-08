@@ -11,16 +11,20 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.cautiondoyouremember.R
 import com.example.cautiondoyouremember.adapters.AdapterForSwipableViews
 import com.example.cautiondoyouremember.databinding.ActivityMainBinding
 import com.example.cautiondoyouremember.receivers.AlarmBroascastReceiverForFaceRecognition
 import com.example.cautiondoyouremember.reminders.FaceRecoognitionData
+import com.example.cautiondoyouremember.reminders.ReminderRepository
+import com.example.cautiondoyouremember.reminders.ReminderViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.database.*
+import kotlin.math.absoluteValue
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,16 +33,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tabLayout: TabLayout
     lateinit var alarmManager: AlarmManager
     lateinit var pendingIntent: PendingIntent
+    private lateinit var viewModel: ReminderViewModel
 
     private val rootReferenceForReminders: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
 
     private lateinit var binding : ActivityMainBinding
-    val THRESHOLD_TIME_FOR_FACE_RECOGNITION = 30*1000
+    val THRESHOLD_TIME_FOR_FACE_RECOGNITION = 20*1000
+    private lateinit var faceRecognitionArrayList: ArrayList<FaceRecoognitionData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel = ViewModelProvider(this).get(ReminderViewModel::class.java)
 
         val settingBtn = findViewById<ImageButton>(R.id.settings)
 
@@ -78,32 +86,24 @@ class MainActivity : AppCompatActivity() {
 
         // face recognition data
         val acct = GoogleSignIn.getLastSignedInAccount(this)
-        val faceRecordReference = rootReferenceForReminders.child(acct?.id.toString()).child("FaceRecognitionRecords")
-        val faceRecognitionArrayList: ArrayList<FaceRecoognitionData> = ArrayList<FaceRecoognitionData>()
+        val reminderRepository = ReminderRepository(acct?.id.toString())
+//        val faceRecordReference = rootReferenceForReminders.child(acct?.id.toString()).child("FaceRecognitionRecords")
+        faceRecognitionArrayList = ArrayList<FaceRecoognitionData>()
 
-        faceRecordReference.addValueEventListener(object :ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    for (faceRecogRecord in snapshot.children) {
-                        val whoGotRecognized = faceRecogRecord.child("WhoGotRecognized").value as String
-                        val notificationStatus = faceRecogRecord.child("notificationStatus").value as Boolean
-                        val recognitionTime = faceRecogRecord.child("RecognitionTime").value as Long
+        createNotificationChannelForAlarm()
 
-                        val faceRecogData = FaceRecoognitionData(whoGotRecognized, recognitionTime, notificationStatus)
-                        faceRecognitionArrayList.add(faceRecogData)
-                        Log.d("FaceRecognitionData", faceRecogRecord.toString())
+        viewModel.allFaceRecognitionRecords.observe(this) {
+            faceRecognitionArrayList = it as ArrayList<FaceRecoognitionData>
 
-                        if (System.currentTimeMillis() <= recognitionTime + THRESHOLD_TIME_FOR_FACE_RECOGNITION ) {
-                            setAlarm()
-                        }
-                    }
+            for (faceData in it) {
+                if (System.currentTimeMillis() < faceData.whenFaceGotRecognized + THRESHOLD_TIME_FOR_FACE_RECOGNITION || faceData.notificationStatus) {
+                    Log.d("ConditionSatisfied", "Notification Triggered")
+                    setAlarm()
                 }
             }
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
+        }
     }
+
 
     private fun createNotificationChannelForAlarm() {
         if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
@@ -115,6 +115,7 @@ class MainActivity : AppCompatActivity() {
 
             val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(notificationChannel)
+            Log.d("ConditionSatisfied", "Notification Channel Created")
         }
     }
 
@@ -128,6 +129,7 @@ class MainActivity : AppCompatActivity() {
         }
 //        pendingIntent = PendingIntent.getBroadcast(this, 0,intent,PendingIntent.FLAG_MUTABLE)
         alarmManager.setExact(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),pendingIntent)
+        Log.d("ConditionSatisfied", "Notification Sent")
     }
 
 }

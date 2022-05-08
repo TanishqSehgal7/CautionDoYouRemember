@@ -16,15 +16,15 @@
         android:src="@drawable/back_btn"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintBottom_toTopOf="@+id/NoteTitle"
-        app:layout_constraintEnd_toStartOf="@+id/TaskDate"
+        app:layout_constraintBottom_toTopOf="@+id/TaskTitle"
+        app:layout_constraintEnd_toStartOf="@+id/dateInTask"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
-        android:id="@+id/TaskDate"
+        android:id="@+id/dateInTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
@@ -33,14 +33,14 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/NoteTitle"
+        app:layout_constraintBottom_toTopOf="@+id/TaskTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/NoteTitle"
+        android:id="@+id/TaskTitle"
         style="@style/editTextBg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,10 +53,10 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TaskDate" />
+        app:layout_constraintTop_toBottomOf="@+id/dateInTask" />
 
     <EditText
-        android:id="@+id/NoteDesc"
+        android:id="@+id/TaskDesc"
         style="@style/editTextBg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,10 +69,9 @@
         android:isScrollContainer="true"
         android:scrollbars="vertical"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/materialButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NoteTitle"
+        app:layout_constraintTop_toBottomOf="@+id/TaskTitle"
         app:layout_constrainedHeight="true"
         app:layout_constraintVertical_bias="0.029" />
 

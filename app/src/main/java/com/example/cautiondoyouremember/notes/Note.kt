@@ -4,9 +4,9 @@ import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
 
 data class Note(
-    val NoteDate: String? = null,
-    val NoteDescription: String? = null,
     val NoteTitle: String? = null,
+    val NoteDescription: String? = null,
+    val NoteDate: String? = null,
 )
 //{
 

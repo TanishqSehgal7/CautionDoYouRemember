@@ -1,61 +1,51 @@
 package com.example.cautiondoyouremember.tasks
+import android.renderscript.Sampler
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.cautiondoyouremember.notes.Note
 import com.google.firebase.database.*
+import kotlin.math.absoluteValue
 
 class TaskRepository(private val googleId: String) {
 
     private val rootReferenceForTasks: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
     private val taskReference: DatabaseReference = rootReferenceForTasks.child(googleId).child("Tasks")
 
-//    val allTasks: MutableLiveData<TaskResponse> = taskResponseFromFirebaseAsMutableLiveData()
-    var allTasks: MutableLiveData<List<Task>>? = null
+    var allTasks = MutableLiveData<List<Task>>()
+
+    init {
+        Log.d("GoogleIdInTasks", googleId)
+    }
 
     fun insertNewTask(task:Task, id:String) {
-        task.id=id
-        taskReference.child(task.id).child("TaskTitle").setValue(task.taskTitle)
-        taskReference.child(task.id).child("TaskDescription").setValue(task.taskDescription)
-        taskReference.child(task.id).child("TaskDate").setValue(task.time)
-        taskReference.child(task.id).child("TaskStatus").setValue(false)
-
+        taskReference.child(id).child("TaskTitle").setValue(task.TaskTitle)
+        taskReference.child(id).child("TaskDescription").setValue(task.TaskDescription)
+        taskReference.child(id).child("TaskDate").setValue(task.TaskTime)
+        taskReference.child(id).child("TaskStatus").setValue(false)
     }
 
     fun deleteNote(task: Task, id:String) {
-        taskReference.child(task.id).removeValue()
+        taskReference.child(id).removeValue()
     }
 
-    fun getTasks() : LiveData<List<Task>> {
-        if (allTasks==null) {
-            allTasks = MutableLiveData()
-            getListOfTasks()
-        }
-        return allTasks!!
-    }
-
-    fun getListOfTasks() : LiveData<List<Task>> {
-        allTasks = MutableLiveData()
-        val list = arrayListOf<Task>()
-
+    fun getListOfTasks() {
+        val listTask = arrayListOf<Task>()
         taskReference.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                list.clear()
-                for (noteItems in snapshot.children) {
-                    val noteItem = noteItems.getValue(Task::class.java)
-                    noteItem?.let { list.add(it) }
+                listTask.clear()
+                Log.d("Repo", "${snapshot.childrenCount}")
+                for (taskItems in snapshot.children) {
+                    val taskItem = taskItems.getValue(Task::class.java)
+                    taskItem?.let { listTask.add(it) }
                 }
-                allTasks?.postValue(list)
+                listTask.sortByDescending { it.TaskTime?.toLong()?.absoluteValue }
+                allTasks.postValue(listTask)
             }
-
             override fun onCancelled(error: DatabaseError) {
-                Log.d("TaskList", error.toString())
             }
         })
-        return allTasks!!
     }
 
-
+    
     fun taskResponseFromFirebaseAsMutableLiveData(): MutableLiveData<TaskResponse> {
 
         val mutableLiveDataForNotes = MutableLiveData<TaskResponse>()

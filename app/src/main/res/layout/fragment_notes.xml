@@ -9,7 +9,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notesRv"
         android:layout_width="match_parent"
-        android:padding="20dp"
+        android:padding="10dp"
         android:layout_height="wrap_content"
         tools:listitem="@layout/note_item_card"/>
 

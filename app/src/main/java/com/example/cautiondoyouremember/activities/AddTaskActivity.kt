@@ -9,9 +9,9 @@ import com.example.cautiondoyouremember.databinding.ActivityAddTaskBinding
 import com.example.cautiondoyouremember.tasks.Task
 import com.example.cautiondoyouremember.tasks.TaskRepository
 import com.example.cautiondoyouremember.tasks.TaskViewModel
-import com.example.cautiondoyouremember.tasks.TaskViewModelFactory
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import dmax.dialog.SpotsDialog
+import java.text.SimpleDateFormat
 import java.util.*
 
 class AddTaskActivity : AppCompatActivity() {
@@ -34,16 +34,29 @@ class AddTaskActivity : AppCompatActivity() {
         val acct = GoogleSignIn.getLastSignedInAccount(this)
         val taskRepository= TaskRepository(acct?.id.toString())
 
-        viewModel=ViewModelProvider(this,TaskViewModelFactory(taskRepository,this))
-            .get(TaskViewModel::class.java)
+        val dateLong = System.currentTimeMillis()
+        val date = dateLong.let { Date(it) }
+        val format =  SimpleDateFormat("dd/MM/yyyy @ hh:mm a")
+        val reminderDate = format.format(date)
+
+        binding.dateInTask.text = reminderDate
+
+        viewModel=ViewModelProvider(this).get(TaskViewModel::class.java)
 
         binding.saveTask.setOnClickListener {
-            val titleOfTask = binding.NoteTitle.text.toString()
-            val descOfTask = binding.NoteDesc.text.toString()
+
+            if (binding.TaskTitle.text.isEmpty() || binding.TaskDesc.text.isEmpty()) {
+                binding.TaskTitle.requestFocus()
+                binding.TaskDesc.requestFocus()
+                binding.TaskTitle.error = "Title and Description can't be empty!"
+            }
+
+            val titleOfTask = binding.TaskTitle.text.toString()
+            val descOfTask = binding.TaskDesc.text.toString()
             val timeOfTask = System.currentTimeMillis().toString()
             val statusOfTask = false
 
-            val task = Task(taskId, titleOfTask, descOfTask,  statusOfTask, timeOfTask)
+            val task = Task(titleOfTask, descOfTask,  statusOfTask, timeOfTask)
 
             if (acct!=null) {
                 viewModel.insertNewTask(task,taskId)
@@ -60,9 +73,6 @@ class AddTaskActivity : AppCompatActivity() {
                         }, 2000)
                     }
             }
-
         }
-
-
     }
 }

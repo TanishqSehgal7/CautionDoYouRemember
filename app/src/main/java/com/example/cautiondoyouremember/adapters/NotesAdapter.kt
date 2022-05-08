@@ -1,5 +1,6 @@
 package com.example.cautiondoyouremember.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,21 +26,24 @@ class NotesAdapter(private var allNotesFromDatabase:ArrayList<Note>
         holder.noteTitle.text = currentNote.NoteTitle
         holder.noteDescription.text = currentNote.NoteDescription
 
-//        val date = currentNote.time?.let { Date(it.toLong()) }
-//        val format = SimpleDateFormat("yyyy.MM.dd HH:mm")
-//        val noteDate = format.format(date)
+        val datelong: Long? = currentNote.NoteDate?.toLong()
+        if (datelong != null) {
+            Log.d("LongValue", datelong.javaClass.simpleName)
+        }
+        val date = datelong?.let { Date(it) }
+        val format = SimpleDateFormat("dd/MM/yyyy @ hh:mm a")
+        val noteDate = date?.let { format.format(it) }
+        holder.noteDate.text = noteDate
+    }
 
-        holder.noteDate.text = currentNote.NoteDate
+    override fun getItemCount(): Int {
+        return allNotesFromDatabase.size
     }
 
     fun updateNotesList(updatedList:List<Note>) {
         allNotesFromDatabase.clear()
         allNotesFromDatabase = (updatedList as ArrayList<Note>).clone() as ArrayList<Note>
         notifyDataSetChanged()
-    }
-
-    override fun getItemCount(): Int {
-       return allNotesFromDatabase.size
     }
 
     class NotesRvAdapterViewHolder(view:View) : RecyclerView.ViewHolder(view) {
