@@ -17,10 +17,6 @@
             android:name=".activities.FaceRecognitionResultIntent"
             android:exported="false" />
 
-        <meta-data
-            android:name="com.google.mlkit.vision.DEPENDENCIES"
-            android:value="face" />
-
         <activity
             android:name=".activities.FaceDetectorAndCaptureActivity"
             android:exported="false"

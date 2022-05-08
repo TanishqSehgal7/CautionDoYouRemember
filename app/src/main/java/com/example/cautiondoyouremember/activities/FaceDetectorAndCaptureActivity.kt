@@ -18,7 +18,6 @@ import com.google.android.gms.tasks.OnSuccessListener
 //import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector
 //import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions
 import dmax.dialog.SpotsDialog
-import org.opencv.android.*
 import java.lang.Exception
 
 class FaceDetectorAndCaptureActivity() : AppCompatActivity()

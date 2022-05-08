@@ -14,12 +14,13 @@ class NotesViewModel (
     : AndroidViewModel(application) {
 
     val googleId = GoogleSignIn.getLastSignedInAccount(application)
-    val notesRepository = NoteRepository(googleId.toString())
+    val notesRepository = NoteRepository(googleId?.id.toString())
 
-    val allNotesLiveData: LiveData<List<Note>> = notesRepository.getNotes()
+    val allNotesLiveData: LiveData<List<Note>> = notesRepository.allNotes
 
     init {
         Log.d("GoogleIdInVM", googleId.toString())
+        notesRepository.getListOfNotes()
     }
 
     fun insertNewNote(note:Note, id:String) {
@@ -33,9 +34,5 @@ class NotesViewModel (
 //    fun updateNote(note: Note, id:String) {
 //        notesRepository.updateNote(note,id)
 //    }
-
-    fun noteResponseFromFirebaseAsLiveData(): LiveData<List<Note>> {
-      return  notesRepository.getNotes()
-    }
 
 }

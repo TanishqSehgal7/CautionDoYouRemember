@@ -10,17 +10,17 @@ class NoteRepository (private val googleId: String) {
     private val rootReferenceForNotes: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
     private val noteReference: DatabaseReference = rootReferenceForNotes.child(googleId).child("Notes")
 
-    var allNotes: MutableLiveData<List<Note>>? = null
+    var allNotes = MutableLiveData<List<Note>>()
 
     fun insertNewNote(note:Note, id:String) {
 //        note.id=id
-        noteReference.child(note.id!!).child("NoteTitle").setValue(note.noteTitle)
-        noteReference.child(note.id).child("NoteDescription").setValue(note.noteDesc)
-        noteReference.child(note.id).child("NoteDate").setValue(note.time)
+        noteReference.child(id).child("NoteTitle").setValue(note.NoteTitle)
+        noteReference.child(id).child("NoteDescription").setValue(note.NoteDescription)
+        noteReference.child(id).child("NoteDate").setValue(note.NoteDate)
     }
 
     fun deleteNote(note: Note, id:String) {
-        noteReference.child(note.id!!).removeValue()
+        noteReference.child(id).removeValue()
     }
 
 //    fun updateNote(note: Note, id:String) {
@@ -31,21 +31,12 @@ class NoteRepository (private val googleId: String) {
 ////        insertNewNote(note,id)
 //    }
 
-    fun getNotes() : LiveData<List<Note>> {
-        if (allNotes==null) {
-            allNotes = MutableLiveData()
-            getListOfNotes()
-        }
-        return allNotes!!
-    }
-
-    fun getListOfNotes() : LiveData<List<Note>> {
-        allNotes = MutableLiveData()
+    fun getListOfNotes(){
         val list = arrayListOf<Note>()
-
-        rootReferenceForNotes.child(googleId).child("Notes").addValueEventListener(object:ValueEventListener{
+        noteReference.addValueEventListener(object:ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 list.clear()
+                Log.d("Repo","${snapshot.childrenCount}")
                 for (noteItems in snapshot.children) {
                     val noteItem = noteItems.getValue(Note::class.java)
                     noteItem?.let { list.add(it) }
@@ -58,7 +49,6 @@ class NoteRepository (private val googleId: String) {
                 Log.d("NoteList", error.toString())
             }
         })
-        return allNotes!!
     }
 
 

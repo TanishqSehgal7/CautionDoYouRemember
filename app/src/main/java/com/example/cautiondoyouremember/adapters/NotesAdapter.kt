@@ -22,14 +22,14 @@ class NotesAdapter(private var allNotesFromDatabase:ArrayList<Note>
 
     override fun onBindViewHolder(holder: NotesRvAdapterViewHolder, position: Int) {
         val currentNote = allNotesFromDatabase[position]
-        holder.noteTitle.text = currentNote.noteTitle
-        holder.noteDescription.text = currentNote.noteDesc
+        holder.noteTitle.text = currentNote.NoteTitle
+        holder.noteDescription.text = currentNote.NoteDescription
 
 //        val date = currentNote.time?.let { Date(it.toLong()) }
 //        val format = SimpleDateFormat("yyyy.MM.dd HH:mm")
 //        val noteDate = format.format(date)
 
-        holder.noteDate.text = currentNote.time
+        holder.noteDate.text = currentNote.NoteDate
     }
 
     fun updateNotesList(updatedList:List<Note>) {

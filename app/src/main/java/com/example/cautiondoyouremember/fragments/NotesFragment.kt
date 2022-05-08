@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -51,6 +52,7 @@ class NotesFragment : Fragment() {
         allNotes = ArrayList<Note>()
 
         viewModel.allNotesLiveData.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), "$it[0]", Toast.LENGTH_SHORT).show()
             notesRecyclerView.setHasFixedSize(true)
             notesRecyclerView.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
             allNotes = it as ArrayList<Note>
@@ -101,7 +103,7 @@ class NotesFragment : Fragment() {
                         val noteTitle = noteSnapShot.child("NoteTitle").value
                         val noteDescription = noteSnapShot.child("NoteDescription").value
                         val noteTime = noteSnapShot.child("NoteDate").value
-                        val note = Note(noteId,noteTitle.toString(),noteDescription.toString(), noteTime.toString())
+                        val note = Note(noteTitle.toString(),noteDescription.toString(), noteTime.toString())
                         allNotes.add(note)
                     }
                     notesAdapter.updateNotesList(allNotes)
